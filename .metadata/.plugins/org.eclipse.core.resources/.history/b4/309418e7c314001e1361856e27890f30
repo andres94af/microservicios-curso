@@ -1,0 +1,38 @@
+package com.usuario.service.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.usuario.service.entities.UserEntity;
+import com.usuario.service.models.Car;
+import com.usuario.service.repositories.UserRepository;
+
+@Service
+public class UserService {
+	
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	private UserRepository repository;
+	
+	public List<Car> getCar(Integer userId){
+		List<Car> cars = restTemplate.getForObject("http://localhost:8002/car/usuario/"+userId, List.class);
+		return cars;
+	}
+	
+	public List<UserEntity> getAll(){
+		return repository.findAll();
+	}
+	
+	public UserEntity getUserById(Integer id) {
+		return repository.findById(id).orElse(null);
+	}
+	
+	public UserEntity save(UserEntity user) {
+		return repository.save(user);
+	}
+}

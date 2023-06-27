@@ -1,0 +1,29 @@
+package com.usuario.service.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.usuario.service.entities.UserEntity;
+import com.usuario.service.repositories.MotoRepository;
+import com.usuario.service.repositories.UserRepository;
+
+@Service
+public class MotoService {
+
+	@Autowired
+	private MotoRepository repository;
+	
+	public List<UserEntity> getAll(){
+		return repository.findAll();
+	}
+	
+	public UserEntity getUserById(Integer id) {
+		return repository.findById(id).orElse(null);
+	}
+	
+	public UserEntity save(UserEntity user) {
+		return repository.save(user);
+	}
+}

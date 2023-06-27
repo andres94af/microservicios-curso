@@ -1,0 +1,29 @@
+package com.car.service.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.car.service.entities.CarEntity;
+import com.car.service.repositories.CarRepository;
+
+@Service
+public class CarroService {
+
+	@Autowired
+	private CarRepository repository;
+	
+	public List<CarEntity> getAll(){
+		return repository.findAll();
+	}
+	
+	public CarEntity getUserById(Integer id) {
+		return repository.findById(id).orElse(null);
+	}
+	
+	public UserEntity save(UserEntity user) {
+		return repository.save(user);
+	}
+	
+}

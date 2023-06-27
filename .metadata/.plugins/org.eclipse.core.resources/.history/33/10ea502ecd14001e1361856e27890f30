@@ -1,0 +1,65 @@
+package com.usuario.service.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import com.usuario.service.entities.UserEntity;
+import com.usuario.service.feignClients.CarFeignClient;
+import com.usuario.service.feignClients.MotoFeignClient;
+import com.usuario.service.models.Car;
+import com.usuario.service.models.Moto;
+import com.usuario.service.repositories.UserRepository;
+
+@Service
+public class UserService {
+	
+	@Autowired
+	private RestTemplate restTemplate;
+
+	@Autowired
+	private UserRepository repository;
+	
+	public List<Car> getCarsByUserId(Integer userId){
+		List<Car> cars = restTemplate.getForObject("http://localhost:8002/car/user/"+userId, List.class);
+		return cars;
+	}
+	
+	public List<Moto> getMotosByUserId(Integer userId){
+		List<Moto> moto = restTemplate.getForObject("http://localhost:8003/moto/user/"+userId, List.class);
+		return moto;
+	}
+	
+	
+	public List<UserEntity> getAll(){
+		return repository.findAll();
+	}
+	
+	public UserEntity getUserById(Integer id) {
+		return repository.findById(id).orElse(null);
+	}
+	
+	public UserEntity save(UserEntity user) {
+		return repository.save(user);
+	}
+
+	//----------------------------------------------------------UTILIZANDO FEIGN CLIENT
+	
+	@Autowired
+	private CarFeignClient carFeignClient;
+	
+	@Autowired
+	private MotoFeignClient motoFeignClient;
+	
+	public Car saveCar(Integer userId, Car car) {
+		car.setUserId(userId);
+		return carFeignClient.save(car);
+	}
+	
+	public Moto saveMoto(Integer userId, Moto moto) {
+		moto.setUserId(userId);
+		return motoFeignClient.save(moto);
+	}
+}
