@@ -19,7 +19,6 @@ INDEX VERSION 1.131+C:\Users\Andres\Documents\Microservicios-tutorial\.metadata\
 1865797976.index
 3066902341.index
 1082923080.index
-4223211091.index
 2391776697.index
 3941663620.index
 1407416417.index
